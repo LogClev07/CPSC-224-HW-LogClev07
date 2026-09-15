@@ -13,7 +13,16 @@ public class Hand {
     }
     public void rollDice() {
         for (int i = 0; i < 6; i++) {
-            dice[i].roll();
+            if (inMeld[i] = false){
+                dice[i].roll();
+            }
         }
+    }
+    public void removeDice(int index) {
+        inMeld[index] = true;
+
+    }
+    public void addDice (int index) {
+        inMeld[index] = false;
     }
 }
