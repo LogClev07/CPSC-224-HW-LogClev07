@@ -1,10 +1,10 @@
 import java.util.Random;
 
-public class die {
+public class Die {
 
     int value;
 
-    public die(int value) {
+    public Die(int value) {
         this.value = value;
     }
 
