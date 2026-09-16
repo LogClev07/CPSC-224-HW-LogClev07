@@ -18,13 +18,20 @@ public class Hand {
             }
         }
     }
+    public int[] getValueTotals() {
+        int[] valueTotals = new int[7];
+
+        for (Die die : dice) {
+            valueTotals[die.getValue()]++;
+        }
+        return valueTotals;
+    }
     public Die getDieInstance(int index) {
         // ChatGPT used to learn about the IndexOutOfBoundsException
         if (index < -1 || index > 5) {
         throw new IndexOutOfBoundsException("Invalid index provided: " + index);
         }
         return dice[index];
-
     }
     public void moveToMeld(int index) {
         inTheMeld[index] = true;
