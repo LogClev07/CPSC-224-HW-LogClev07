@@ -13,4 +13,11 @@ public class Meld {
     public void removeDie(Die die) {
         dice.remove(die);
     }
+    public int[] findMeldValueTotals() {
+        int[] meldValueTotals = new int[7];
+        for (Die die : dice) {
+            meldValueTotals[die.getValue()]++;
+        }
+        return meldValueTotals;
+    }
 }

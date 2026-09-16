@@ -19,6 +19,7 @@ public class Hand {
         }
     }
     public int[] getValueTotals() {
+        // Used ChatGPT hint of utilizing an array of size 7 instead of 6
         int[] valueTotals = new int[7];
 
         for (Die die : dice) {
