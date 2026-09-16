@@ -63,9 +63,12 @@ public class Hand {
         }
         return dice[index];
     }
+    public boolean isInMeld(int index) {
+        return inTheMeld[index];
+    }
     public void moveToMeld(int index) {
         inTheMeld[index] = true;
-
+    
     }
     public void moveToHand (int index) {
         inTheMeld[index] = false;
