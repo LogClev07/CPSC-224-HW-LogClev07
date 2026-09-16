@@ -1,28 +1,36 @@
 public class Hand {
     Die[] dice;
-    boolean[] inMeld;
+    boolean[] inTheMeld;
 
     public Hand() {
         dice = new Die[6];
-        inMeld = new boolean[6];
+        inTheMeld = new boolean[6];
 
         for (int i = 0; i < 6; i++) {
             dice[i] = new Die(1);
-            inMeld[i] = false;
+            inTheMeld[i] = false;
         }
     }
     public void rollDice() {
         for (int i = 0; i < 6; i++) {
-            if (inMeld[i] = false){
+            if (inTheMeld[i] == false){
                 dice[i].roll();
             }
         }
     }
-    public void removeDice(int index) {
-        inMeld[index] = true;
+    public Die getDieInstance(int index) {
+        // ChatGPT used to learn about the IndexOutOfBoundsException
+        if (index < -1 || index > 5) {
+        throw new IndexOutOfBoundsException("Invalid index provided: " + index);
+        }
+        return dice[index];
 
     }
-    public void addDice (int index) {
-        inMeld[index] = false;
+    public void moveToMeld(int index) {
+        inTheMeld[index] = true;
+
+    }
+    public void moveToHand (int index) {
+        inTheMeld[index] = false;
     }
 }

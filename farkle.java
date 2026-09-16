@@ -1,3 +1,3 @@
-public class farkle {
+public class Farkle {
     
 }
