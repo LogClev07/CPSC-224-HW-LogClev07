@@ -27,6 +27,35 @@ public class Hand {
         }
         return valueTotals;
     }
+    // Used ChatGPT to visualize possibilities of a Farkle
+    public boolean detectFarkle() {
+        int[] valueTotals = getValueTotals();
+        boolean tripleExists = false;
+        int numDoubles = 0;
+
+        for (int val : valueTotals) {
+            if (val > 2) {
+                tripleExists = true;
+            }
+            if (val == 2) {
+                numDoubles ++;
+            }
+        }
+        // detect 1's and 5's
+        if (valueTotals[1] > 0 || valueTotals[5] > 0 ) {
+            return false;
+        }
+        // detect triple
+        else if (tripleExists == true) {
+            return false;
+
+        }
+        // detect triple doubles
+        else if (numDoubles == 3) {
+            return false;
+        }
+        return true;  
+    }
     public Die getDieInstance(int index) {
         // ChatGPT used to learn about the IndexOutOfBoundsException
         if (index < -1 || index > 5) {
