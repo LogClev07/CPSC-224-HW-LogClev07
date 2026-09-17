@@ -7,7 +7,7 @@ public class Farkle {
 
         playRound(hand, meld);
     }
-    public static void display(Hand hand, Meld meld) {
+    public static void display(Hand hand, Meld meld, boolean showMenu) {
         int[] handValueTotals = hand.getValueTotals();
 
         // Used ChatGPT to understand how to use printf
@@ -28,7 +28,6 @@ public class Farkle {
         System.out.println("*******************");
         System.out.printf("%-6s %-6s | %-6s%n", "Die", "Hand", "Meld");
         System.out.println("--------------+---------------");
-
         for (int i = 0; i < 6; i++) {
             // Used ChatGPT to understand how to loop through alphabet
             char letter = (char) ('A' + i);
@@ -42,10 +41,12 @@ public class Farkle {
         System.out.println("--------------+---------------");
         System.out.printf("%16sMeld Score: %d%n", "", meld.calculateScore());
         System.out.println();
-        System.out.println("(K) Bank Meld & End Round");
-        System.out.println("(Q) Quit game");
-        System.out.println();
-        System.out.print("Enter letter for your choice: A,B,C,D,E,F,K,Q: ");
+        if (showMenu == true) {
+            System.out.println("(K) Bank Meld & End Round");
+            System.out.println("(Q) Quit game");
+            System.out.println();
+            System.out.print("Enter letter for your choice: A,B,C,D,E,F,K,Q: ");
+        }
     }
 
 
@@ -61,7 +62,7 @@ public class Farkle {
         }
         while (finished == false) {
             boolean validChoice = false;
-            Farkle.display(hand, meld);
+            Farkle.display(hand, meld, true);
             while (validChoice == false) {
                 String userChoice =  scanner.nextLine().trim().toUpperCase();
                 if (userChoice.length() != 1 || "ABCDEFKQ".contains(userChoice) == false) {
@@ -84,6 +85,7 @@ public class Farkle {
                 else {
                     System.out.println("Congrats! You scored: " + meld.calculateScore() + " points.");
                     System.out.println("");
+                    finished = true;
                 }
             }
             else if (userChoice.equals("A")) {
@@ -149,6 +151,7 @@ public class Farkle {
 
             }
         }
+        Farkle.display(hand, meld, false);
         scanner.close();
     }
 }

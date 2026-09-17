@@ -58,7 +58,7 @@ public class Hand {
     }
     public Die getDieInstance(int index) {
         // ChatGPT used to learn about the IndexOutOfBoundsException
-        if (index < -1 || index > 5) {
+        if (index < 0 || index > 5) {
         throw new IndexOutOfBoundsException("Invalid index provided: " + index);
         }
         return dice[index];
