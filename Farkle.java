@@ -64,6 +64,7 @@ public class Farkle {
             System.out.println("(Q) Quit game"); 
             System.out.println(); 
             System.out.print("Enter letter for your choice: A,B,C,D,E,F,K,Q: "); 
+            System.out.print("If entering multiple inputs: enter letters with no spaces")
         } 
     } 
  
