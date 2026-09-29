@@ -135,11 +135,7 @@ public class farkle2 {
         return false;
     }
 
-    public static void playRound(
-        Hand hand,
-        Meld meld,
-        Player player
-    ) {
+    public static void playRound(Hand hand, Meld meld, Player player) {
         Scanner scanner = new Scanner(System.in);
 
         int turnScore = 0;
@@ -149,7 +145,7 @@ public class farkle2 {
 
             hand.rollDice();
 
-            if (checkForFarkle(hand, meld)) {
+            if (checkForFarkle(hand, meld) == true) {
                 return;
             }
 
@@ -183,6 +179,7 @@ public class farkle2 {
 
             if (nextChoice.equals("R")) {
                 System.out.println("You've chosen to roll again");
+                meld.clearMeld();
                 continue;
             }
 
