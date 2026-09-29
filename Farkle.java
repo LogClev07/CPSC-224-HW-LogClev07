@@ -64,7 +64,7 @@ public class Farkle {
             System.out.println("(Q) Quit game"); 
             System.out.println(); 
             System.out.print("Enter letter for your choice: A,B,C,D,E,F,K,Q: "); 
-            System.out.print("If entering multiple inputs: enter letters with no spaces")
+            System.out.print("If entering multiple inputs: enter letters with no spaces");
         } 
     } 
  
@@ -101,7 +101,7 @@ public class Farkle {
             } 
             // Banking points 
             else if (userChoice.equals("K")) { 
-                if (meld.calculateScore() == 0) { 
+                if (meld.calculateScore()[0] == 0) { 
                     System.out.println("You need more than 0 points to score!"); 
                     System.out.println(""); 
                 } 

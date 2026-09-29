@@ -30,6 +30,7 @@ public class Meld {
  
     /**
      * Returns the quantity of each die value in the meld.
+     * Also returns the number of scoring dice in the meld.
      */
     public int[] findMeldValueTotals() { 
         int[] meldValueTotals = new int[7]; 
@@ -44,8 +45,9 @@ public class Meld {
     /**
      * Calculates and returns the total score of the meld.
      */
-    public int calculateScore() { 
+    public int [] calculateScore() { 
         int score = 0; 
+        int scoringDice = 0;
         int numSoloValues = 0; 
         int numDoubles = 0; 
  
@@ -69,75 +71,93 @@ public class Meld {
  
                 if (i == 1) { 
                     tripleOnes = true; 
+                    scoringDice += 3;
                 } else if (i == 2) { 
-                    tripleTwos = true; 
+                    tripleTwos = true;
+                    scoringDice += 3; 
                 } else if (i == 3) { 
-                    tripleThrees = true; 
+                    tripleThrees = true;
+                    scoringDice += 3; 
                 } else if (i == 4) { 
-                    tripleFours = true; 
+                    tripleFours = true;
+                    scoringDice += 3; 
                 } else if (i == 5) { 
-                    tripleFives = true; 
+                    tripleFives = true;
+                    scoringDice += 3; 
                 } else if (i == 6) { 
-                    tripleSixes = true; 
+                    tripleSixes = true;
+                    scoringDice += 3; 
                 } 
             } 
         } 
         // Checking for possible straight 
         if (numSoloValues == 6) { 
-            return 1000; 
+            scoringDice += 6;
+            score = 1000; 
+            return new int[] {score, scoringDice};
         } 
  
         // Checking for triple doubles 
-        else if (numDoubles == 3) { 
-            return 750; 
+        else if (numDoubles == 3) {
+            scoringDice += 6; 
+            score = 750;
+            return new int[] {score, scoringDice}; 
         } 
  
         // Scoring triple ones 
         if (tripleOnes) { 
             int extraValues = meldValueTotals[1] - 3; 
+            scoringDice += extraValues;
             score = score + 1000 + (100 * extraValues); 
         } 
  
         // Scoring triple twos 
         if (tripleTwos) { 
-            int extraValues = meldValueTotals[2] - 3; 
+            int extraValues = meldValueTotals[2] - 3;
+            scoringDice += extraValues; 
             score = score + 200 + (200 * extraValues); 
         } 
  
         // Scoring triple threes 
         if (tripleThrees) { 
-            int extraValues = meldValueTotals[3] - 3; 
+            int extraValues = meldValueTotals[3] - 3;
+            scoringDice += extraValues; 
             score = score + 300 + (300 * extraValues); 
         } 
  
         // Scoring triple fours 
         if (tripleFours) { 
             int extraValues = meldValueTotals[4] - 3; 
+            scoringDice += extraValues;
             score = score + 400 + (400 * extraValues); 
         } 
  
         // Scoring triple fives 
         if (tripleFives) { 
-            int extraValues = meldValueTotals[5] - 3; 
+            int extraValues = meldValueTotals[5] - 3;
+            scoringDice += extraValues; 
             score = score + 500 + (500 * extraValues); 
         } 
  
         // Scoring triple sixes 
         if (tripleSixes) { 
-            int extraValues = meldValueTotals[6] - 3; 
+            int extraValues = meldValueTotals[6] - 3;
+            scoringDice += extraValues; 
             score = score + 600 + (600 * extraValues); 
         } 
  
         // Scoring leftover ones 
         if (tripleOnes == false) { 
+            scoringDice += meldValueTotals[1];
             score = score + (meldValueTotals[1] * 100); 
         } 
  
         // Scoring leftover fives 
         if (tripleFives == false) { 
+            scoringDice += meldValueTotals[5];
             score = score + (meldValueTotals[5] * 50); 
         } 
  
-        return score; 
+        return new int[] {score, scoringDice}; 
     } 
 }
