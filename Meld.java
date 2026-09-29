@@ -27,10 +27,16 @@ public class Meld {
     public void removeDie(Die die) { 
         dice.remove(die); 
     } 
+
+    /**
+     * Returns the number of dice currently in the meld.
+     */
+    public int getMeldSize() {
+        return dice.size();
+    }
  
     /**
      * Returns the quantity of each die value in the meld.
-     * Also returns the number of scoring dice in the meld.
      */
     public int[] findMeldValueTotals() { 
         int[] meldValueTotals = new int[7]; 
@@ -44,8 +50,9 @@ public class Meld {
     // Used ChatGPT to give hints regarding how to tackle scoring priority 
     /**
      * Calculates and returns the total score of the meld.
+     * Also returns the number of scoring dice in the meld.
      */
-    public int [] calculateScore() { 
+    public int [] calculateScoreAndScoringDice() { 
         int score = 0; 
         int scoringDice = 0;
         int numSoloValues = 0; 

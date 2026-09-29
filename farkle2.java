@@ -112,6 +112,13 @@ public class farkle2 {
         } 
     }
 
+    public static boolean validateMeld(Meld meld, int numScoringDice) {
+            if (numScoringDice == meld.getMeldSize()) {
+                return true;
+            }
+            return false;
+    }
+
     public static void playRound(Hand hand, Meld meld) { 
         // Used ChatGPT to help learn Scanner class functionality 
         Scanner scanner = new Scanner(System.in); 
