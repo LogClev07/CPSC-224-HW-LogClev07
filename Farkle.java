@@ -101,13 +101,13 @@ public class Farkle {
             } 
             // Banking points 
             else if (userChoice.equals("K")) { 
-                if (meld.calculateScore()[0] == 0) { 
+                if (meld.calculateScoreAndScoringDice()[0] == 0) { 
                     System.out.println("You need more than 0 points to score!"); 
                     System.out.println(""); 
                 } 
                 else { 
                     System.out.println(""); 
-                    System.out.println("Congrats! You scored: " + meld.calculateScore() + " points."); 
+                    System.out.println("Congrats! You scored: " + meld.calculateScoreAndScoringDice()[0] + " points."); 
                     System.out.println(""); 
                     finished = true; 
                 } 
