@@ -41,6 +41,21 @@ public class Hand {
         } 
         return valueTotals; 
     } 
+    /**
+     * Returns the quantity of dice in the meld.
+     */
+    public int getMeldDiceTotal() {
+        // Used ChatGPT hint to create this helper method for Hot Hand  
+        int numTrue = 0;
+
+        for (boolean value : inTheMeld) {
+            if (value == true) {
+                numTrue += 1;
+            }
+        }
+        return numTrue;
+
+    } 
 
     /**
      * Checks whether the hand contains a Farkle.

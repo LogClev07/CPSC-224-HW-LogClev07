@@ -151,6 +151,7 @@ public class farkle2 {
 
             boolean validMeld = false;
             int[] scoreResults = null;
+            int numScoringDice = 0;
 
             while (validMeld == false) {
                 Farkle.display(hand, meld, true);
@@ -163,7 +164,7 @@ public class farkle2 {
 
                 chooseMeldDice(hand, meld, userChoice);
                 scoreResults = meld.calculateScoreAndScoringDice();
-                int numScoringDice = scoreResults[1];
+                numScoringDice = scoreResults[1];
                 validMeld = validateMeld(meld, numScoringDice);
 
                 if (validMeld == false) {
@@ -172,10 +173,26 @@ public class farkle2 {
             }
 
             turnScore += scoreResults[0];
+            farkle2.detectHotHand(numScoringDice)
+
+            String nextChoice = null;
 
             System.out.println("Current turn score: " + turnScore);
             System.out.print("Enter R to reroll or K to bank: ");
-            String nextChoice = scanner.nextLine().trim().toUpperCase();
+            boolean validNextChoice = false;
+            while (validNextChoice == false) {
+                nextChoice = scanner.nextLine().trim().toUpperCase();
+                if (nextChoice.length() > 1) {
+                    System.out.println("Please only enter 1 input. Try again!");
+                    continue;
+                }
+                if (nextChoice.indexOf('R') == -1 && nextChoice.indexOf('K') == -1) {
+                    System.out.println("Please enter a valid choice: R or K");
+                    continue;
+                }
+                validNextChoice = true;
+            }
+
 
             if (nextChoice.equals("R")) {
                 System.out.println("You've chosen to roll again");
