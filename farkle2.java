@@ -127,8 +127,8 @@ public class farkle2 {
         return false;
     }
 
-    public static boolean detectHotHand(int numScoringDice) {
-        if (numScoringDice == 6) {
+    public static boolean detectHotHand(Hand hand) {
+        if (hand.getMeldDiceTotal() == 6) {
             return true;
         }
 
@@ -136,6 +136,7 @@ public class farkle2 {
     }
 
     public static void playRound(Hand hand, Meld meld, Player player) {
+        // Had ChatGPT help with debugging and syntax organization
         Scanner scanner = new Scanner(System.in);
 
         int turnScore = 0;
@@ -163,8 +164,10 @@ public class farkle2 {
                 }
 
                 chooseMeldDice(hand, meld, userChoice);
+
                 scoreResults = meld.calculateScoreAndScoringDice();
                 numScoringDice = scoreResults[1];
+
                 validMeld = validateMeld(meld, numScoringDice);
 
                 if (validMeld == false) {
@@ -173,30 +176,52 @@ public class farkle2 {
             }
 
             turnScore += scoreResults[0];
-            farkle2.detectHotHand(numScoringDice)
+
+            boolean hotHand = farkle2.detectHotHand(hand);
+
+            if (hotHand == true) {
+                System.out.println("**********************************************************************");
+                System.out.printf("*%39s%30s%n", "HOT HAND!", "*");
+                System.out.println("*                                                                    *");
+                System.out.printf("*%58s%11s%n", "You used all 6 dice in scoring melds!", "*");
+                System.out.printf("*%58s%11s%n", "Roll 6 new dice, or bank and end your turn?", "*");
+                System.out.println("*                                                                    *");
+                System.out.printf("*%48s%21s%n", "[R] Roll Again     [K] Bank", "*");
+                System.out.println("**********************************************************************");
+            }
 
             String nextChoice = null;
 
             System.out.println("Current turn score: " + turnScore);
             System.out.print("Enter R to reroll or K to bank: ");
+
             boolean validNextChoice = false;
+
             while (validNextChoice == false) {
                 nextChoice = scanner.nextLine().trim().toUpperCase();
+
                 if (nextChoice.length() > 1) {
                     System.out.println("Please only enter 1 input. Try again!");
                     continue;
                 }
+
                 if (nextChoice.indexOf('R') == -1 && nextChoice.indexOf('K') == -1) {
                     System.out.println("Please enter a valid choice: R or K");
                     continue;
                 }
+
                 validNextChoice = true;
             }
-
 
             if (nextChoice.equals("R")) {
                 System.out.println("You've chosen to roll again");
                 meld.clearMeld();
+
+                if (hotHand == true) {
+                    meld.clearMeld();
+                    hand.resetDiceBackToHand();
+                }
+
                 continue;
             }
 
