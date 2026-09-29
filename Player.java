@@ -15,7 +15,7 @@ public class Player {
         return this.name;
     }
 
-    public void add_Turn_Score(int turnScore) {
+    public void addTurnScore(int turnScore) {
         this.bankedScore += turnScore;
     }
 }
