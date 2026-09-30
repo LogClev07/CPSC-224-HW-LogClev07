@@ -21,6 +21,7 @@ public class Farkle {
         }
         Player player = new Player(playerName);
  
+        System.out.println("");
         showBanner();
         playRound(hand, meld, player, scanner); 
 
@@ -73,9 +74,9 @@ public class Farkle {
         System.out.println(); 
         if (showMenu == true) { 
             System.out.println("(Q) Quit game"); 
-            System.out.println(); 
+            System.out.println();
+            System.out.println("If entering multiple inputs - enter letters with no spaces!"); 
             System.out.print("Enter letter for your choice: A,B,C,D,E,F,Q: "); 
-            System.out.print("If entering multiple inputs: enter letters with no spaces");
         } 
     }
 
@@ -204,7 +205,6 @@ public class Farkle {
         return false;
     }
 
- 
     /**
      * EDIT JAVADOC
      */
@@ -244,6 +244,8 @@ public class Farkle {
                 validMeld = validateMeld(meld, numScoringDice);
 
                 if (validMeld == false) {
+                    System.out.println("");
+                    chooseMeldDice(hand, meld, userChoice);
                     System.out.println("Selected meld is invalid. Try again.");
                 }
             }
