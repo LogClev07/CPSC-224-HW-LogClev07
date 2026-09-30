@@ -11,10 +11,20 @@ public class Farkle {
     public static void main(String[] args) { 
         Hand hand = new Hand(); 
         Meld meld = new Meld(); 
-        Player player = new Player("test player");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter player name: ");
+        String playerName = scanner.nextLine().trim();
+
+        if (playerName.length() == 0) {
+            playerName = "Unknown Player";
+        }
+        Player player = new Player(playerName);
  
         showBanner();
-        playRound(hand, meld, player); 
+        playRound(hand, meld, player, scanner); 
+
+        scanner.close();
     } 
     public static void showBanner() {
         System.out.println("**********************************************************************");
@@ -26,12 +36,13 @@ public class Farkle {
     /**
      * Displays the current hand, meld, score, and optional menu.
      */
-    public static void display(Hand hand, Meld meld, boolean showMenu) { 
+    public static void display(Hand hand, Meld meld, Player player, boolean showMenu) { 
         int[] handValueTotals = hand.getValueTotals(); 
  
         // Used ChatGPT to understand how to use printf 
         // Also used ChatGPT to help adapt spacing from CPP example 
         System.out.println("\n***************Let's Play Farkle!***************"); 
+        System.out.println("Player: " + player.getPlayerName());
         System.out.printf("%-28s %-6s %-6s %-6s %-6s %-6s %-6s%n", 
             "Hand", hand.getDieInstance(0).getValue(), 
             hand.getDieInstance(1).getValue(), hand.getDieInstance(2).getValue(), 
@@ -67,11 +78,12 @@ public class Farkle {
             System.out.print("If entering multiple inputs: enter letters with no spaces");
         } 
     }
+
     // WRITE JAVADOC
-    public static boolean checkForFarkle(Hand hand, Meld meld) {
+    public static boolean checkForFarkle(Hand hand, Meld meld, Player player) {
         if (hand.detectFarkle() == true) {
             System.out.println("You rolled a Farkle! Please try again.");
-            Farkle.display(hand, meld, false);
+            Farkle.display(hand, meld, player, false);
             return true;
         }
 
@@ -90,15 +102,10 @@ public class Farkle {
                 continue;
             }
 
-            else if (userChoice.indexOf('K') != -1 && userChoice.length() > 1) {
-                System.out.println("Invalid mixed input. To bank please only press K");
-                continue;
-            }
-
             for (char letter : userChoice.toCharArray()) {
-                if ("ABCDEFKQ".indexOf(letter) == -1) {
+                if ("ABCDEFQ".indexOf(letter) == -1) {
                     validChoice = false;
-                    System.out.println("Invalid input. Please choose from A,B,C,D,E,F,K,Q");
+                    System.out.println("Invalid input. Please choose from A,B,C,D,E,F,Q");
                     break;
                 }
             }
@@ -201,9 +208,8 @@ public class Farkle {
     /**
      * EDIT JAVADOC
      */
-    public static void playRound(Hand hand, Meld meld, Player player) {
+    public static void playRound(Hand hand, Meld meld, Player player, Scanner scanner) {
         // Had ChatGPT help with debugging and syntax organization
-        Scanner scanner = new Scanner(System.in);
 
         int turnScore = 0;
         boolean turnFinished = false;
@@ -212,7 +218,7 @@ public class Farkle {
 
             hand.rollDice();
 
-            if (checkForFarkle(hand, meld) == true) {
+            if (checkForFarkle(hand, meld, player) == true) {
                 return;
             }
 
@@ -221,11 +227,12 @@ public class Farkle {
             int numScoringDice = 0;
 
             while (validMeld == false) {
-                Farkle.display(hand, meld, true);
+                Farkle.display(hand, meld, player, true);
                 String userChoice = getUserChoice(scanner);
 
                 if (userChoice.equals("Q")) {
                     System.out.println("Exiting game... Come play again soon!");
+                    System.out.println("Current total score: " + player.getBankedScore());
                     return;
                 }
 
