@@ -42,6 +42,22 @@ public class Hand {
         return valueTotals; 
     } 
     /**
+     * Tracks the values of dice only in hand (not meld)
+     */
+    // Used hint from ChatGPT to make this helper method
+    // for detectFarkle
+    public int[] getAvailableValueTotals() { 
+        int[] availableValueTotals = new int[7];
+        for (int i = 0; i < 6; i++) {
+            if (inTheMeld[i] == false) {
+                Die die = dice[i];
+                availableValueTotals[die.getValue()]++;
+            }
+        }
+        return availableValueTotals;
+
+    } 
+    /**
      * Returns the quantity of dice in the meld.
      */
     public int getMeldDiceTotal() {
@@ -54,7 +70,14 @@ public class Hand {
             }
         }
         return numTrue;
-
+    } 
+    /**
+     * Returns all dice back to hand
+     */
+    public void resetDiceBackToHand() { 
+        for (int i = 0; i < 6; i++) {
+            inTheMeld[i] = false;
+        }
     } 
 
     /**
@@ -62,7 +85,7 @@ public class Hand {
      */
     // Used ChatGPT to visualize possibilities of a Farkle 
     public boolean detectFarkle() { 
-        int[] valueTotals = getValueTotals(); 
+        int[] valueTotals = getAvailableValueTotals(); 
         boolean tripleExists = false; 
         int numDoubles = 0; 
  
