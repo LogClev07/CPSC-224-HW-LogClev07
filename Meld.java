@@ -34,6 +34,12 @@ public class Meld {
     public int getMeldSize() {
         return dice.size();
     }
+    /**
+     * Clears all dice currently stored in the meld
+     */
+    public void clearMeld() {
+        dice.clear();
+    }
  
     /**
      * Returns the quantity of each die value in the meld.

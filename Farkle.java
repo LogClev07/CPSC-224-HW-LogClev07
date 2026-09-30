@@ -11,9 +11,10 @@ public class Farkle {
     public static void main(String[] args) { 
         Hand hand = new Hand(); 
         Meld meld = new Meld(); 
+        Player player = new Player("test player");
  
         showBanner();
-        playRound(hand, meld); 
+        playRound(hand, meld, player); 
     } 
     public static void showBanner() {
         System.out.println("**********************************************************************");
@@ -57,126 +58,244 @@ public class Farkle {
             System.out.printf("(%c)    %-6s | %-6s%n", letter, "", currDieValue); 
         } 
         System.out.println("--------------+---------------"); 
-        System.out.printf("%16sMeld Score: %d%n", "", meld.calculateScore()); 
+        System.out.printf("%16sMeld Score: %d%n", "", meld.calculateScoreAndScoringDice()[0]); 
         System.out.println(); 
         if (showMenu == true) { 
-            System.out.println("(K) Bank Meld & End Round"); 
             System.out.println("(Q) Quit game"); 
             System.out.println(); 
-            System.out.print("Enter letter for your choice: A,B,C,D,E,F,K,Q: "); 
+            System.out.print("Enter letter for your choice: A,B,C,D,E,F,Q: "); 
             System.out.print("If entering multiple inputs: enter letters with no spaces");
         } 
+    }
+    // WRITE JAVADOC
+    public static boolean checkForFarkle(Hand hand, Meld meld) {
+        if (hand.detectFarkle() == true) {
+            System.out.println("You rolled a Farkle! Please try again.");
+            Farkle.display(hand, meld, false);
+            return true;
+        }
+
+        return false;
     } 
+
+    // WRITE JAVADOC
+    public static String getUserChoice(Scanner scanner) {
+
+        while (true) {
+            String userChoice = scanner.nextLine().trim().toUpperCase();
+            boolean validChoice = true;
+
+            if (userChoice.indexOf('Q') != -1 && userChoice.length() > 1) {
+                System.out.println("Invalid mixed input. To quit please only press Q!");
+                continue;
+            }
+
+            else if (userChoice.indexOf('K') != -1 && userChoice.length() > 1) {
+                System.out.println("Invalid mixed input. To bank please only press K");
+                continue;
+            }
+
+            for (char letter : userChoice.toCharArray()) {
+                if ("ABCDEFKQ".indexOf(letter) == -1) {
+                    validChoice = false;
+                    System.out.println("Invalid input. Please choose from A,B,C,D,E,F,K,Q");
+                    break;
+                }
+            }
+
+            if (validChoice == true && userChoice.length() > 0) {
+                return userChoice;
+            }
+        }
+    }
+
+    // WRITE JAVADOC
+    public static void chooseMeldDice(Hand hand, Meld meld, String userChoice) {
+
+        if (userChoice.indexOf('A') != -1) {
+            if (hand.isInMeld(0) == false) {
+                hand.moveToMeld(0);
+                meld.addDie(hand.getDieInstance(0));
+            }
+            else {
+                hand.moveToHand(0);
+                meld.removeDie(hand.getDieInstance(0));
+            }
+        }
+
+        if (userChoice.indexOf('B') != -1) {
+            if (hand.isInMeld(1) == false) {
+                hand.moveToMeld(1);
+                meld.addDie(hand.getDieInstance(1));
+            }
+            else {
+                hand.moveToHand(1);
+                meld.removeDie(hand.getDieInstance(1));
+            }
+        }
+
+        if (userChoice.indexOf('C') != -1) {
+            if (hand.isInMeld(2) == false) {
+                hand.moveToMeld(2);
+                meld.addDie(hand.getDieInstance(2));
+            }
+            else {
+                hand.moveToHand(2);
+                meld.removeDie(hand.getDieInstance(2));
+            }
+        }
+
+        if (userChoice.indexOf('D') != -1) {
+            if (hand.isInMeld(3) == false) {
+                hand.moveToMeld(3);
+                meld.addDie(hand.getDieInstance(3));
+            }
+            else {
+                hand.moveToHand(3);
+                meld.removeDie(hand.getDieInstance(3));
+            }
+        }
+
+        if (userChoice.indexOf('E') != -1) {
+            if (hand.isInMeld(4) == false) {
+                hand.moveToMeld(4);
+                meld.addDie(hand.getDieInstance(4));
+            }
+            else {
+                hand.moveToHand(4);
+                meld.removeDie(hand.getDieInstance(4));
+            }
+        }
+
+        if (userChoice.indexOf('F') != -1) {
+            if (hand.isInMeld(5) == false) {
+                hand.moveToMeld(5);
+                meld.addDie(hand.getDieInstance(5));
+            }
+            else {
+                hand.moveToHand(5);
+                meld.removeDie(hand.getDieInstance(5));
+            }
+        }
+    }
+
+    // WRITE JAVADOC
+    public static boolean validateMeld(Meld meld, int numScoringDice) {
+        if (numScoringDice == meld.getMeldSize()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // WRITE JAVADOC
+    public static boolean detectHotHand(Hand hand) {
+        if (hand.getMeldDiceTotal() == 6) {
+            return true;
+        }
+
+        return false;
+    }
+
  
     /**
-     * Plays a single round of Farkle.
+     * EDIT JAVADOC
      */
-    public static void playRound(Hand hand, Meld meld) { 
-        // Used ChatGPT to help learn Scanner class functionality 
-        Scanner scanner = new Scanner(System.in); 
-        boolean finished = false; 
-        hand.rollDice(); 
-        if (hand.detectFarkle() == true) {  
-            System.out.println("You rolled a Farkle! Please try again.");
-            Farkle.display(hand, meld, false);  
-            scanner.close(); 
-            return; 
-        } 
-        while (finished == false) { 
-            boolean validChoice = false; 
-            Farkle.display(hand, meld, true); 
-            while (validChoice == false) { 
-                String userChoice =  scanner.nextLine().trim().toUpperCase(); 
-                if (userChoice.length() != 1 || "ABCDEFKQ".contains(userChoice) == false) { 
-                    System.out.println("Invalid input. Please choose a singular choice from A,B,C,D,E,F,K,Q"); 
-                    continue; 
-                } 
-                else { 
-                    validChoice = true; 
-                } 
-            // Quitting Game 
-            if (userChoice.equals("Q")) { 
-                System.out.println("Exiting game...  Come play again soon!");  
-                finished = true; 
-            } 
-            // Banking points 
-            else if (userChoice.equals("K")) { 
-                if (meld.calculateScoreAndScoringDice()[0] == 0) { 
-                    System.out.println("You need more than 0 points to score!"); 
-                    System.out.println(""); 
-                } 
-                else { 
-                    System.out.println(""); 
-                    System.out.println("Congrats! You scored: " + meld.calculateScoreAndScoringDice()[0] + " points."); 
-                    System.out.println(""); 
-                    finished = true; 
-                } 
-            } 
-            // Dice A-F  
-            else if (userChoice.equals("A")) { 
-                if (hand.isInMeld(0) == false) { 
-                    hand.moveToMeld(0); 
-                    meld.addDie(hand.getDieInstance(0)); 
-                } 
-                else { 
-                    hand.moveToHand(0); 
-                    meld.removeDie(hand.getDieInstance(0)); 
-                } 
-            } 
-            else if (userChoice.equals("B")) { 
-                if (hand.isInMeld(1) == false) { 
-                    hand.moveToMeld(1); 
-                    meld.addDie(hand.getDieInstance(1)); 
-                } 
-                else { 
-                    hand.moveToHand(1); 
-                    meld.removeDie(hand.getDieInstance(1)); 
-                } 
-            } 
-            else if (userChoice.equals("C")) { 
-                if (hand.isInMeld(2) == false) { 
-                    hand.moveToMeld(2); 
-                    meld.addDie(hand.getDieInstance(2)); 
-                } 
-                else { 
-                    hand.moveToHand(2); 
-                    meld.removeDie(hand.getDieInstance(2)); 
-                } 
-            } 
-            else if (userChoice.equals("D")) { 
-                if (hand.isInMeld(3) == false) { 
-                    hand.moveToMeld(3); 
-                    meld.addDie(hand.getDieInstance(3)); 
-                } 
-                else { 
-                    hand.moveToHand(3); 
-                    meld.removeDie(hand.getDieInstance(3)); 
-                } 
-            } 
-            else if (userChoice.equals("E")) { 
-                if (hand.isInMeld(4) == false) { 
-                    hand.moveToMeld(4); 
-                    meld.addDie(hand.getDieInstance(4)); 
-                } 
-                else { 
-                    hand.moveToHand(4); 
-                    meld.removeDie(hand.getDieInstance(4)); 
-                } 
-            } 
-            else if (userChoice.equals("F")) { 
-                if (hand.isInMeld(5) == false) { 
-                    hand.moveToMeld(5); 
-                    meld.addDie(hand.getDieInstance(5)); 
-                } 
-                else { 
-                    hand.moveToHand(5); 
-                    meld.removeDie(hand.getDieInstance(5)); 
-                } 
-            } 
- 
-            } 
-        } 
-        Farkle.display(hand, meld, false); 
-        scanner.close(); 
-    } 
+    public static void playRound(Hand hand, Meld meld, Player player) {
+        // Had ChatGPT help with debugging and syntax organization
+        Scanner scanner = new Scanner(System.in);
+
+        int turnScore = 0;
+        boolean turnFinished = false;
+
+        while (turnFinished == false) {
+
+            hand.rollDice();
+
+            if (checkForFarkle(hand, meld) == true) {
+                return;
+            }
+
+            boolean validMeld = false;
+            int[] scoreResults = null;
+            int numScoringDice = 0;
+
+            while (validMeld == false) {
+                Farkle.display(hand, meld, true);
+                String userChoice = getUserChoice(scanner);
+
+                if (userChoice.equals("Q")) {
+                    System.out.println("Exiting game... Come play again soon!");
+                    return;
+                }
+
+                chooseMeldDice(hand, meld, userChoice);
+
+                scoreResults = meld.calculateScoreAndScoringDice();
+                numScoringDice = scoreResults[1];
+
+                validMeld = validateMeld(meld, numScoringDice);
+
+                if (validMeld == false) {
+                    System.out.println("Selected meld is invalid. Try again.");
+                }
+            }
+
+            turnScore += scoreResults[0];
+
+            boolean hotHand = detectHotHand(hand);
+
+            if (hotHand == true) {
+                System.out.println("**********************************************************************");
+                System.out.printf("*%39s%30s%n", "HOT HAND!", "*");
+                System.out.println("*                                                                    *");
+                System.out.printf("*%58s%11s%n", "You used all 6 dice in scoring melds!", "*");
+                System.out.printf("*%58s%11s%n", "Roll 6 new dice, or bank and end your turn?", "*");
+                System.out.println("*                                                                    *");
+                System.out.printf("*%48s%21s%n", "[R] Roll Again     [K] Bank", "*");
+                System.out.println("**********************************************************************");
+            }
+
+            String nextChoice = null;
+
+            System.out.println("Current turn score: " + turnScore);
+            System.out.print("Enter R to reroll or K to bank: ");
+
+            boolean validNextChoice = false;
+
+            while (validNextChoice == false) {
+                nextChoice = scanner.nextLine().trim().toUpperCase();
+
+                if (nextChoice.length() > 1) {
+                    System.out.println("Please only enter 1 input. Try again!");
+                    continue;
+                }
+
+                if (nextChoice.indexOf('R') == -1 && nextChoice.indexOf('K') == -1) {
+                    System.out.println("Please enter a valid choice: R or K");
+                    continue;
+                }
+
+                validNextChoice = true;
+            }
+
+            if (nextChoice.equals("R")) {
+                System.out.println("You've chosen to roll again");
+                meld.clearMeld();
+
+                if (hotHand == true) {
+                    meld.clearMeld();
+                    hand.resetDiceBackToHand();
+                }
+
+                continue;
+            }
+
+            if (nextChoice.equals("K")) {
+                player.addTurnScore(turnScore);
+                System.out.println("Congrats! You banked " + turnScore + " points.");
+                turnFinished = true;
+            }
+        }
+    }
 }
