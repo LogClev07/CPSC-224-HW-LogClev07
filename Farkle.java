@@ -73,17 +73,19 @@ public class Farkle {
         System.out.printf("%16sMeld Score: %d%n", "", meld.calculateScoreAndScoringDice()[0]); 
         System.out.println(); 
         if (showMenu == true) { 
-            System.out.println("(Q) Quit game"); 
+            System.out.println("(Q) Quit game");
+            System.out.println("(X) Confirm Meld"); 
             System.out.println();
             System.out.println("If entering multiple inputs - enter letters with no spaces!"); 
-            System.out.print("Enter letter for your choice: A,B,C,D,E,F,Q: "); 
+            System.out.print("Enter letter for your choice: A,B,C,D,E,F,X,Q: "); 
         } 
     }
 
     // WRITE JAVADOC
     public static boolean checkForFarkle(Hand hand, Meld meld, Player player) {
         if (hand.detectFarkle() == true) {
-            System.out.println("You rolled a Farkle! Please try again.");
+            System.out.println("");
+            System.out.println("You rolled a Farkle :( Better luck next time!");
             Farkle.display(hand, meld, player, false);
             return true;
         }
@@ -102,11 +104,15 @@ public class Farkle {
                 System.out.println("Invalid mixed input. To quit please only press Q!");
                 continue;
             }
+            else if (userChoice.indexOf('X') != -1 && userChoice.length() > 1) {
+                System.out.println("Invalid mixed input. To confirm meld please only press X!");
+                continue;
+            }
 
             for (char letter : userChoice.toCharArray()) {
-                if ("ABCDEFQ".indexOf(letter) == -1) {
+                if ("ABCDEFXQ".indexOf(letter) == -1) {
                     validChoice = false;
-                    System.out.println("Invalid input. Please choose from A,B,C,D,E,F,Q");
+                    System.out.println("Invalid input. Please choose from A,B,C,D,E,F,X,Q");
                     break;
                 }
             }
@@ -236,18 +242,19 @@ public class Farkle {
                     return;
                 }
 
+                if (userChoice.equals("X")) {
+                    scoreResults = meld.calculateScoreAndScoringDice();
+                    numScoringDice = scoreResults[1];
+                    validMeld = validateMeld(meld, numScoringDice);
+                    
+                    if (validMeld == false) {
+                    System.out.println("");
+                    System.out.println("Selected meld is invalid. Try again.");
+                    }
+                }
+
                 chooseMeldDice(hand, meld, userChoice);
 
-                scoreResults = meld.calculateScoreAndScoringDice();
-                numScoringDice = scoreResults[1];
-
-                validMeld = validateMeld(meld, numScoringDice);
-
-                if (validMeld == false) {
-                    System.out.println("");
-                    chooseMeldDice(hand, meld, userChoice);
-                    System.out.println("Selected meld is invalid. Try again.");
-                }
             }
 
             turnScore += scoreResults[0];
