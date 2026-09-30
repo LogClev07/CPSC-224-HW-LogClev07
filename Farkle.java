@@ -195,8 +195,9 @@ public class Farkle {
 
     // WRITE JAVADOC
     public static boolean validateMeld(Meld meld, int numScoringDice) {
-        if (numScoringDice == meld.getMeldSize()) {
-            return true;
+        // ChatGPT helped identify missed edge case of empty meld being valid.
+        if (meld.getMeldSize() > 0 && numScoringDice == meld.getMeldSize()) {
+        return true;
         }
 
         return false;
