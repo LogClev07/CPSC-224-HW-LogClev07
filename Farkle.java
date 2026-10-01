@@ -81,7 +81,9 @@ public class Farkle {
         } 
     }
 
-    // WRITE JAVADOC
+    /**
+    *Checks whether the current dice contain a Farkle.
+    */
     public static boolean checkForFarkle(Hand hand, Meld meld, Player player) {
         if (hand.detectFarkle() == true) {
             System.out.println("");
@@ -93,7 +95,9 @@ public class Farkle {
         return false;
     } 
 
-    // WRITE JAVADOC
+    /**
+    * Gets a valid choice from the user.
+    */
     public static String getUserChoice(Scanner scanner) {
 
         while (true) {
@@ -123,7 +127,9 @@ public class Farkle {
         }
     }
 
-    // WRITE JAVADOC
+    /**
+    * Adds or removes selected dice from the meld.
+    */
     public static void chooseMeldDice(Hand hand, Meld meld, String userChoice) {
 
         if (userChoice.indexOf('A') != -1) {
@@ -193,7 +199,9 @@ public class Farkle {
         }
     }
 
-    // WRITE JAVADOC
+    /**
+     * Checks whether the current meld is valid.
+    */
     public static boolean validateMeld(Meld meld, int numScoringDice) {
         // ChatGPT helped identify missed edge case of empty meld being valid.
         if (meld.getMeldSize() > 0 && numScoringDice == meld.getMeldSize()) {
@@ -203,7 +211,9 @@ public class Farkle {
         return false;
     }
 
-    // WRITE JAVADOC
+    /**
+    * Checks whether the player has a Hot Hand.
+    */
     public static boolean detectHotHand(Hand hand) {
         if (hand.getMeldDiceTotal() == 6) {
             return true;
@@ -213,8 +223,8 @@ public class Farkle {
     }
 
     /**
-     * EDIT JAVADOC
-     */
+    * Plays a single round of Farkle.
+    */
     public static void playRound(Hand hand, Meld meld, Player player, Scanner scanner) {
         // Had ChatGPT help with debugging and syntax organization
 
