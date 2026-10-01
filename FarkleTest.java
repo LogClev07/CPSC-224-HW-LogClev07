@@ -3,6 +3,8 @@
 import static org.junit.jupiter.api.Assertions.*; // Gives me access to assertion statements
 import org.junit.jupiter.api.Test; // Allows for @Test tag so junit knows what funcs are tests
 
+// Test Passed!
+
 public class FarkleTest {
 
     /**
