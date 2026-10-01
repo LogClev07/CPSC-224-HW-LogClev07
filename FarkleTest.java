@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test; // Allows for @Test tag so junit knows what f
 
 // Test Passed!
 
+/**
+ * Tests the functionality of the Farkle game.
+ */
 public class FarkleTest {
 
     /**

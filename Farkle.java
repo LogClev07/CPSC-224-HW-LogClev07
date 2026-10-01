@@ -27,6 +27,9 @@ public class Farkle {
 
         scanner.close();
     } 
+    /**
+     * Displays the Farkle intro banner.
+     */
     public static void showBanner() {
         System.out.println("**********************************************************************");
         System.out.printf("*%45s%23s%n", "Zag Farkle by Logan Clevenger!", "*");
@@ -131,13 +134,15 @@ public class Farkle {
     * Adds or removes selected dice from the meld.
     */
     public static void chooseMeldDice(Hand hand, Meld meld, String userChoice) {
-
+        // ChatGPT used to help identify edge case in which a die is
+        // accepted in the meld but then removed and readded and recounted
+        // to increase player score
         if (userChoice.indexOf('A') != -1) {
             if (hand.isInMeld(0) == false) {
                 hand.moveToMeld(0);
                 meld.addDie(hand.getDieInstance(0));
             }
-            else {
+            else if (meld.containsDie(hand.getDieInstance(0))) {
                 hand.moveToHand(0);
                 meld.removeDie(hand.getDieInstance(0));
             }
@@ -148,7 +153,7 @@ public class Farkle {
                 hand.moveToMeld(1);
                 meld.addDie(hand.getDieInstance(1));
             }
-            else {
+            else if (meld.containsDie(hand.getDieInstance(0))) {
                 hand.moveToHand(1);
                 meld.removeDie(hand.getDieInstance(1));
             }
@@ -159,7 +164,7 @@ public class Farkle {
                 hand.moveToMeld(2);
                 meld.addDie(hand.getDieInstance(2));
             }
-            else {
+            else if (meld.containsDie(hand.getDieInstance(0))) {
                 hand.moveToHand(2);
                 meld.removeDie(hand.getDieInstance(2));
             }
@@ -170,7 +175,7 @@ public class Farkle {
                 hand.moveToMeld(3);
                 meld.addDie(hand.getDieInstance(3));
             }
-            else {
+            else if (meld.containsDie(hand.getDieInstance(0))) {
                 hand.moveToHand(3);
                 meld.removeDie(hand.getDieInstance(3));
             }
@@ -181,7 +186,7 @@ public class Farkle {
                 hand.moveToMeld(4);
                 meld.addDie(hand.getDieInstance(4));
             }
-            else {
+            else if (meld.containsDie(hand.getDieInstance(0))) {
                 hand.moveToHand(4);
                 meld.removeDie(hand.getDieInstance(4));
             }
@@ -192,7 +197,7 @@ public class Farkle {
                 hand.moveToMeld(5);
                 meld.addDie(hand.getDieInstance(5));
             }
-            else {
+            else if (meld.containsDie(hand.getDieInstance(0))) {
                 hand.moveToHand(5);
                 meld.removeDie(hand.getDieInstance(5));
             }

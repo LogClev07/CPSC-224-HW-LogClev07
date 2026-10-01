@@ -29,6 +29,13 @@ public class Meld {
     } 
 
     /**
+    * Checks whether a die is currently in the meld.
+    */
+    public boolean containsDie(Die die) {
+        return dice.contains(die);
+    }
+
+    /**
      * Returns the number of dice currently in the meld.
      */
     public int getMeldSize() {
