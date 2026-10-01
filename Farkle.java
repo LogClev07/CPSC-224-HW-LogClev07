@@ -153,7 +153,7 @@ public class Farkle {
                 hand.moveToMeld(1);
                 meld.addDie(hand.getDieInstance(1));
             }
-            else if (meld.containsDie(hand.getDieInstance(0))) {
+            else if (meld.containsDie(hand.getDieInstance(1))) {
                 hand.moveToHand(1);
                 meld.removeDie(hand.getDieInstance(1));
             }
@@ -164,7 +164,7 @@ public class Farkle {
                 hand.moveToMeld(2);
                 meld.addDie(hand.getDieInstance(2));
             }
-            else if (meld.containsDie(hand.getDieInstance(0))) {
+            else if (meld.containsDie(hand.getDieInstance(2))) {
                 hand.moveToHand(2);
                 meld.removeDie(hand.getDieInstance(2));
             }
@@ -175,7 +175,7 @@ public class Farkle {
                 hand.moveToMeld(3);
                 meld.addDie(hand.getDieInstance(3));
             }
-            else if (meld.containsDie(hand.getDieInstance(0))) {
+            else if (meld.containsDie(hand.getDieInstance(3))) {
                 hand.moveToHand(3);
                 meld.removeDie(hand.getDieInstance(3));
             }
@@ -186,7 +186,7 @@ public class Farkle {
                 hand.moveToMeld(4);
                 meld.addDie(hand.getDieInstance(4));
             }
-            else if (meld.containsDie(hand.getDieInstance(0))) {
+            else if (meld.containsDie(hand.getDieInstance(4))) {
                 hand.moveToHand(4);
                 meld.removeDie(hand.getDieInstance(4));
             }
@@ -197,7 +197,7 @@ public class Farkle {
                 hand.moveToMeld(5);
                 meld.addDie(hand.getDieInstance(5));
             }
-            else if (meld.containsDie(hand.getDieInstance(0))) {
+            else if (meld.containsDie(hand.getDieInstance(5))) {
                 hand.moveToHand(5);
                 meld.removeDie(hand.getDieInstance(5));
             }
