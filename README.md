@@ -2,4 +2,4 @@
 
 Name: Logan Clevenger  
 Semester: Fall 2026  
-Current assignment: HW1
+Current assignment: HW2
