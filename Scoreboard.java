@@ -33,6 +33,35 @@ public class Scoreboard {
     }
 
     /**
+     * Switches active player to the next player in line.
+     * Will return false if the player has met 
+     * or exceeded the winning score.
+     */
+    public boolean switchActivePlayer() {
+        if (this.checkWinCondition()) {
+            return false;
+        }
+        if (players.indexOf(this.activePlayer) == players.size() - 1) {
+            this.activePlayer = players.get(0);
+            return true;
+        }
+        this.activePlayer = players.get(players.indexOf(this.activePlayer) + 1);
+        return true;
+    }
+
+    /**
+     * Checks if active player has achieved the minimum 
+     * winning score to enter endgame
+     */
+    public boolean checkWinCondition() {
+        if (this.activePlayer.getBankedScore() >= this.winningPoints) {
+            return true;
+        }
+        return false;
+        
+    }
+
+    /**
      * Gets player input for all start game settings
      */
     public void setUpScoreboard(Scanner scanner) {

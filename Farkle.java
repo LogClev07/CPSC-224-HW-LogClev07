@@ -8,28 +8,49 @@ public class Farkle {
     /**
      * Creates the hand and meld and starts the game.
      */
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
+        boolean quit = false;
         boolean winningPointsReached = false;
         Scoreboard scoreboard = new Scoreboard();
 
         Scanner scanner = new Scanner(System.in);
-        
-        scoreboard.setUpScoreboard(scanner);
- 
+
         System.out.println("");
         showBanner();
+
+        scoreboard.setUpScoreboard(scanner);
 
         while (winningPointsReached == false) {
             Hand hand = new Hand();
             Meld meld = new Meld();
-            activePlayer = scoreboard.getActivePlayer();
+            Player activePlayer = scoreboard.getActivePlayer();
 
-            playRound(hand, meld, activePlayer, scanner); 
+            boolean completedTurn = playRound(hand, meld, activePlayer, scanner);
+
+            // Stop the game if a player quits
+            if (completedTurn == false) {
+                quit = true;
+                break;
+            }
+
+            // Display everyone's scores
+            scoreboard.printScoreboard();
+
+            // Check whether the winning score has been reached
+            if (activePlayer.getBankedScore() >= scoreboard.getWinningPoints()) {
+                winningPointsReached = true;
+            }
+            else {
+                scoreboard.switchActivePlayer();
+            }
         }
-        
+        if (quit == true) {
+
+        }
 
         scanner.close();
-    } 
+    }
+    
     /**
      * Displays the Farkle intro banner.
      */
@@ -235,7 +256,7 @@ public class Farkle {
     * Returns true if round ends normally (rolling Farkle, banking points)
     * Returns false if player chooses to quit
     */
-    public static boolean playRound(Hand hand, Meld meld, Player player, Scanner scanner) {
+    public static boolean playRound(Hand hand, Meld meld, Player player, Scanner scanner, Scoreboard scoreboard) {
         // Had ChatGPT help with debugging and syntax organization
 
         int turnScore = 0;
@@ -258,8 +279,9 @@ public class Farkle {
                 String userChoice = getUserChoice(scanner);
 
                 if (userChoice.equals("Q")) {
+                    System.out.println("Results before exiting:");
+                    scoreboard.printScoreboard();
                     System.out.println("Exiting game... Come play again soon!");
-                    System.out.println("Current total score: " + player.getBankedScore());
                     return false;
                 }
 
