@@ -71,7 +71,7 @@ public class FarkleTest {
      */
     @Test
     public void testPlayerName() {
-        Player player = new Player("Logan");
+        Player player = new Player("Logan", 1);
 
         assertEquals("Logan", player.getPlayerName());
     }

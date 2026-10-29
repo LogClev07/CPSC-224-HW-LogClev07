@@ -9,21 +9,24 @@ public class Farkle {
      * Creates the hand and meld and starts the game.
      */
     public static void main(String[] args) { 
-        Hand hand = new Hand(); 
-        Meld meld = new Meld(); 
+        boolean winningPointsReached = false;
+        Scoreboard scoreboard = new Scoreboard();
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter player name: ");
-        String playerName = scanner.nextLine().trim();
-
-        if (playerName.length() == 0) {
-            playerName = "Unknown Player";
-        }
-        Player player = new Player(playerName);
+        
+        scoreboard.setUpScoreboard(scanner);
  
         System.out.println("");
         showBanner();
-        playRound(hand, meld, player, scanner); 
+
+        while (winningPointsReached == false) {
+            Hand hand = new Hand();
+            Meld meld = new Meld();
+            activePlayer = scoreboard.getActivePlayer();
+
+            playRound(hand, meld, activePlayer, scanner); 
+        }
+        
 
         scanner.close();
     } 

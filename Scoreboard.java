@@ -2,12 +2,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Scoreboard {
-    int winningPoints;
-    ArrayList<Player> players;
-    ArrayList<String> defaultNames;
+    private int winningPoints;
+    private ArrayList<Player> players;
+    private ArrayList<String> defaultNames;
+    private Player activePlayer;
+
+    /**
+     * Returns the winning points for this game of Farkle
+     */
+    public int getWinningPoints() {
+        return this.winningPoints;
+    }
     
-    public void setUpScoreboard() {
-        Scanner scanner = new Scanner(System.in);
+    /**
+     * Returns the player currently playing their turn
+     */
+    public Player getActivePlayer() {
+        return this.activePlayer;
+    }
+
+    /**
+     * Gets player input for all start game settings
+     */
+    public void setUpScoreboard(Scanner scanner) {
 
         this.players = new ArrayList<>();
         
@@ -17,7 +34,7 @@ public class Scoreboard {
         defaultNames.add("Ghost");
         defaultNames.add("Vampire");    
 
-        // Get target winning score
+        // Get winning score
         while (true) {
             System.out.print("How many points would you like to play to in this game?: ");
             String winningpts = scanner.nextLine().trim();
@@ -99,5 +116,6 @@ public class Scoreboard {
             Player player = new Player(playerName, num);
             players.add(player);
         }
+        this.activePlayer = players.get(0);
     }
 }
