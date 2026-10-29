@@ -48,6 +48,7 @@ public class Farkle {
 
                 boolean _ = playRound(hand, meld, activePlayer, scanner, scoreboard);
                 scoreboard.printScoreboard();
+                scoreboard.switchActivePlayerEndgame();
 
             }
             System.out.println("");
@@ -101,7 +102,6 @@ public class Farkle {
         System.out.println("WINNING TARGET: " + scoreboard.getWinningPoints());
 
         System.out.println("");
-        System.out.println("ALL PLAYER SCORES:");
         scoreboard.printScoreboard();
 
         System.out.println("**********************************************************************");

@@ -32,11 +32,12 @@ public class Scoreboard {
      * Prints a nice representation of all player's scores
      */
     public void printScoreboard() {
+        System.out.println("\n**********************************************************************");
         System.out.println("Current Player Scores:");
         for (Player player : players) {
             System.out.println(player.getPlayerName() + "'s score: " + player.getBankedScore());
         }
-        System.out.println("");
+        System.out.println("**********************************************************************\n");
     }
 
     /**
