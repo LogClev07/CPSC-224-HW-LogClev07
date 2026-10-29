@@ -231,9 +231,11 @@ public class Farkle {
     }
 
     /**
-    * Plays a single round of Farkle.
+    * Plays a single round of Farkle for the active player.
+    * Returns true if round ends normally (rolling Farkle, banking points)
+    * Returns false if player chooses to quit
     */
-    public static void playRound(Hand hand, Meld meld, Player player, Scanner scanner) {
+    public static boolean playRound(Hand hand, Meld meld, Player player, Scanner scanner) {
         // Had ChatGPT help with debugging and syntax organization
 
         int turnScore = 0;
@@ -244,7 +246,7 @@ public class Farkle {
             hand.rollDice();
 
             if (checkForFarkle(hand, meld, player) == true) {
-                return;
+                return true;
             }
 
             boolean validMeld = false;
@@ -258,7 +260,7 @@ public class Farkle {
                 if (userChoice.equals("Q")) {
                     System.out.println("Exiting game... Come play again soon!");
                     System.out.println("Current total score: " + player.getBankedScore());
-                    return;
+                    return false;
                 }
 
                 if (userChoice.equals("X")) {
@@ -332,5 +334,6 @@ public class Farkle {
                 turnFinished = true;
             }
         }
+        return true;
     }
 }

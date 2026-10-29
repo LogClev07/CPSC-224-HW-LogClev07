@@ -22,6 +22,17 @@ public class Scoreboard {
     }
 
     /**
+     * Prints a nice representation of all player's scores
+     */
+    public void printScoreboard() {
+        System.out.println("Current Player Scores:");
+        for (Player player : players) {
+            System.out.println(player.getPlayerName() + "'s score: " + player.getBankedScore());
+        }
+        System.out.println("");
+    }
+
+    /**
      * Gets player input for all start game settings
      */
     public void setUpScoreboard(Scanner scanner) {
