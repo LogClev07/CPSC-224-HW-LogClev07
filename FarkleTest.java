@@ -3,7 +3,6 @@
 import static org.junit.jupiter.api.Assertions.*; // Gives me access to assertion statements
 import org.junit.jupiter.api.Test; // Allows for @Test tag so junit knows what funcs are tests
 
-// Test Passed!
 
 /**
  * Tests the functionality of the Farkle game.
@@ -91,5 +90,65 @@ public class FarkleTest {
         hand.getDieInstance(5).value = 6;
 
         assertTrue(hand.detectFarkle());
+    }
+
+    /**
+     * Tests Full House with no additional scoring die
+     */
+    @Test
+    public void testFullHouseNoExtra() {
+        Meld meld = new Meld();
+
+        meld.addDie(new Die(1));
+        meld.addDie(new Die(1));
+        meld.addDie(new Die(1));
+        meld.addDie(new Die(2));
+        meld.addDie(new Die(2));
+        meld.addDie(new Die(6));
+
+        int [] results = meld.calculateScoreAndScoringDice();
+
+        assertEquals(1500, results[0]);
+        assertEquals(5, results[1]);
+    }
+
+    /**
+     * Tests Full House (with 1's) with an additional 1 value die
+     */
+    @Test
+    public void testFullHouseExtraOne() {
+        Meld meld = new Meld();
+
+        meld.addDie(new Die(1));
+        meld.addDie(new Die(1));
+        meld.addDie(new Die(1));
+        meld.addDie(new Die(2));
+        meld.addDie(new Die(2));
+        meld.addDie(new Die(1));
+
+        int [] results = meld.calculateScoreAndScoringDice();
+
+        assertEquals(1600, results[0]);
+        assertEquals(6, results[1]);
+    }
+
+    /**
+     * Tests Full House (with 5's) with an additional 5 value die
+     */
+    @Test
+    public void testFullHouseExtraFive() {
+        Meld meld = new Meld();
+
+        meld.addDie(new Die(5));
+        meld.addDie(new Die(5));
+        meld.addDie(new Die(5));
+        meld.addDie(new Die(2));
+        meld.addDie(new Die(2));
+        meld.addDie(new Die(5));
+
+        int [] results = meld.calculateScoreAndScoringDice();
+
+        assertEquals(1550, results[0]);
+        assertEquals(6, results[1]);
     }
 }

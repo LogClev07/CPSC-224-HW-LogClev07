@@ -46,13 +46,20 @@ public class Farkle {
                 Meld meld = new Meld();
                 Player activePlayer = scoreboard.getActivePlayer();
 
-                boolean _ = playRound(hand, meld, activePlayer, scanner, scoreboard);
+                boolean completedTurn = playRound(hand, meld, activePlayer, scanner, scoreboard);
+                if (completedTurn == false) {
+                    quit = true;
+                    break;
+                }
+
                 scoreboard.printScoreboard();
                 scoreboard.switchActivePlayerEndgame();
-
             }
-            System.out.println("");
-            displayWinner(scoreboard.findWinner(), scanner, scoreboard);
+
+            if (quit == false) {
+                System.out.println("");
+                displayWinner(scoreboard.findWinner(), scoreboard);
+            }
         }
 
         scanner.close();
@@ -71,7 +78,7 @@ public class Farkle {
     /**
      * Displays the final winner and game results.
      */
-    public static void displayWinner(Player winner, Scanner scanner, Scoreboard scoreboard) {
+    public static void displayWinner(Player winner, Scoreboard scoreboard) {
         // ChatGPT provided halloween themed printout (SPOOKY!)
         System.out.println();
         System.out.println("**********************************************************************");
