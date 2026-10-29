@@ -10,7 +10,7 @@ public class Farkle {
      */
     public static void main(String[] args) {
         boolean quit = false;
-        boolean winningPointsReached = false;
+        boolean winningPointsNotReached = true;
         Scoreboard scoreboard = new Scoreboard();
 
         Scanner scanner = new Scanner(System.in);
@@ -20,12 +20,12 @@ public class Farkle {
 
         scoreboard.setUpScoreboard(scanner);
 
-        while (winningPointsReached == false) {
+        while (winningPointsNotReached == true) {
             Hand hand = new Hand();
             Meld meld = new Meld();
             Player activePlayer = scoreboard.getActivePlayer();
 
-            boolean completedTurn = playRound(hand, meld, activePlayer, scanner);
+            boolean completedTurn = playRound(hand, meld, activePlayer, scanner, scoreboard);
 
             // Stop the game if a player quits
             if (completedTurn == false) {
@@ -36,16 +36,22 @@ public class Farkle {
             // Display everyone's scores
             scoreboard.printScoreboard();
 
-            // Check whether the winning score has been reached
-            if (activePlayer.getBankedScore() >= scoreboard.getWinningPoints()) {
-                winningPointsReached = true;
-            }
-            else {
-                scoreboard.switchActivePlayer();
-            }
+            // Attempt a switch unless winning points have been reached
+            winningPointsNotReached = scoreboard.switchActivePlayer();
         }
-        if (quit == true) {
+        if (quit == false) {
+            scoreboard.switchActivePlayerEndgame();
+            for (int i = 1; i < scoreboard.getNumPlayers(); i++) {
+                Hand hand = new Hand();
+                Meld meld = new Meld();
+                Player activePlayer = scoreboard.getActivePlayer();
 
+                boolean _ = playRound(hand, meld, activePlayer, scanner, scoreboard);
+                scoreboard.printScoreboard();
+
+            }
+            System.out.println("");
+            displayWinner(scoreboard.findWinner(), scanner, scoreboard);
         }
 
         scanner.close();
@@ -58,6 +64,48 @@ public class Farkle {
         System.out.println("**********************************************************************");
         System.out.printf("*%45s%23s%n", "Zag Farkle by Logan Clevenger!", "*");
         System.out.printf("*%41s%27s%n", "Copyright: 2026", "*");
+        System.out.println("**********************************************************************");
+    }
+
+    /**
+     * Displays the final winner and game results.
+     */
+    public static void displayWinner(Player winner, Scanner scanner, Scoreboard scoreboard) {
+        // ChatGPT provided halloween themed printout (SPOOKY!)
+        System.out.println();
+        System.out.println("**********************************************************************");
+        System.out.println("*                                                                    *");
+        System.out.println("*                    ZAG FARKLE CHAMPION!                            *");
+        System.out.println("*                                                                    *");
+        System.out.println("*                              ||                                    *");
+        System.out.println("*                         _____||_____                               *");
+        System.out.println("*                      .-'            '-.                            *");
+        System.out.println("*                    .'                  '.                          *");
+        System.out.println("*                   /    /\\        /\\    \\                         *");
+        System.out.println("*                  |    /  \\      /  \\    |                         *");
+        System.out.println("*                  |   /____\\    /____\\   |                         *");
+        System.out.println("*                  |          /\\          /                         *");
+        System.out.println("*                  |         /__\\         |                         *");
+        System.out.println("*                  |    ______________     |                           *");
+        System.out.println("*                  |    \\_  _  _  _  _/  /                         *");
+        System.out.println("*                   \\     \\/ \\/ \\/ \\/                             *");
+        System.out.println("*                    '.                .'                           *");
+        System.out.println("*                      '-.__________.-'                             *");
+        System.out.println("*                                                                    *");
+        System.out.println("*                      YOU WON FARKLE!                               *");
+        System.out.println("*                                                                    *");
+        System.out.println("**********************************************************************");
+
+        System.out.println("WINNER: " + winner.getPlayerName());
+        System.out.println("WINNING SCORE: " + winner.getBankedScore());
+        System.out.println("WINNING TARGET: " + scoreboard.getWinningPoints());
+
+        System.out.println("");
+        System.out.println("ALL PLAYER SCORES:");
+        scoreboard.printScoreboard();
+
+        System.out.println("**********************************************************************");
+        System.out.println("*                    THANKS FOR PLAYING!                             *");
         System.out.println("**********************************************************************");
     }
 
@@ -279,6 +327,7 @@ public class Farkle {
                 String userChoice = getUserChoice(scanner);
 
                 if (userChoice.equals("Q")) {
+                    System.out.println("\n\n");
                     System.out.println("Results before exiting:");
                     scoreboard.printScoreboard();
                     System.out.println("Exiting game... Come play again soon!");

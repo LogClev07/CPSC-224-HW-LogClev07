@@ -22,6 +22,13 @@ public class Scoreboard {
     }
 
     /**
+     * Returns the total number of players
+     */
+    public int getNumPlayers() {
+        return this.players.size();
+    }
+
+    /**
      * Prints a nice representation of all player's scores
      */
     public void printScoreboard() {
@@ -50,6 +57,20 @@ public class Scoreboard {
     }
 
     /**
+     * Switches active player during endgame
+     * Allows for loop in Farkle to handle how many
+     * players should switch. 
+     */
+    public void switchActivePlayerEndgame() {
+        if (players.indexOf(this.activePlayer) == players.size() - 1) {
+            this.activePlayer = players.get(0);
+        }
+        else {
+            this.activePlayer = players.get(players.indexOf(this.activePlayer) + 1);
+        }
+    }
+
+    /**
      * Checks if active player has achieved the minimum 
      * winning score to enter endgame
      */
@@ -60,6 +81,20 @@ public class Scoreboard {
         return false;
         
     }
+
+    /**
+     * Returns the player that won the game
+     */
+    public Player findWinner() {
+        Player curr_winner = this.activePlayer;
+        for (Player player: players) {
+            if (player.getBankedScore() > curr_winner.getBankedScore()) {
+                curr_winner = player;
+            }
+        }
+        return curr_winner;
+    }
+
 
     /**
      * Gets player input for all start game settings
