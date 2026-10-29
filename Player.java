@@ -4,13 +4,15 @@
 public class Player {
     private int bankedScore;
     private String name;
+    private int playerID;
     
     /**
      * Creates a player with a name and a starting score of 0.
      */
-    public Player(String name) {
+    public Player(String name, int playerID) {
         this.bankedScore = 0;
         this.name = name;
+        this.playerID = playerID;
     }
 
     /**
@@ -18,6 +20,13 @@ public class Player {
      */
     public int getBankedScore() {
         return this.bankedScore;
+    }
+
+    /**
+     * Returns the player's ID.
+     */
+    public int getPlayerID() {
+        return this.playerID;
     }
 
     /**

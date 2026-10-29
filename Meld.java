@@ -1,36 +1,36 @@
-import java.util.ArrayList; 
- 
+import java.util.ArrayList;
+
 /**
  * Represents a meld of selected dice in Farkle.
  */
-public class Meld { 
- 
-    private ArrayList<Die> dice; 
- 
+public class Meld {
+
+    private ArrayList<Die> dice;
+
     /**
      * Creates an empty meld.
      */
-    public Meld() { 
-        dice = new ArrayList<>(); 
-    } 
- 
+    public Meld() {
+        dice = new ArrayList<>();
+    }
+
     /**
      * Adds a die to the meld.
      */
-    public void addDie(Die die) { 
-        dice.add(die); 
-    } 
- 
+    public void addDie(Die die) {
+        dice.add(die);
+    }
+
     /**
      * Removes a die from the meld.
      */
-    public void removeDie(Die die) { 
-        dice.remove(die); 
-    } 
+    public void removeDie(Die die) {
+        dice.remove(die);
+    }
 
     /**
-    * Checks whether a die is currently in the meld.
-    */
+     * Checks whether a die is currently in the meld.
+     */
     public boolean containsDie(Die die) {
         return dice.contains(die);
     }
@@ -41,143 +41,185 @@ public class Meld {
     public int getMeldSize() {
         return dice.size();
     }
+
     /**
      * Clears all dice currently stored in the meld
      */
     public void clearMeld() {
         dice.clear();
     }
- 
+
     /**
      * Returns the quantity of each die value in the meld.
      */
-    public int[] findMeldValueTotals() { 
-        int[] meldValueTotals = new int[7]; 
- 
-        for (Die die : dice) { 
-            meldValueTotals[die.getValue()]++; 
-        } 
- 
-        return meldValueTotals; 
-    } 
-    // Used ChatGPT to give hints regarding how to tackle scoring priority 
+    public int[] findMeldValueTotals() {
+        int[] meldValueTotals = new int[7];
+
+        for (Die die : dice) {
+            meldValueTotals[die.getValue()]++;
+        }
+
+        return meldValueTotals;
+    }
+
+    // Used ChatGPT to give hints regarding how to tackle scoring priority
     /**
      * Calculates and returns the total score of the meld.
      * Also returns the number of scoring dice in the meld.
      */
-    public int [] calculateScoreAndScoringDice() { 
-        int score = 0; 
+    public int [] calculateScoreAndScoringDice() {
+        int score = 0;
         int scoringDice = 0;
-        int numSoloValues = 0; 
-        int numDoubles = 0; 
- 
-        boolean tripleOnes = false; 
-        boolean tripleTwos = false; 
-        boolean tripleThrees = false; 
-        boolean tripleFours = false; 
-        boolean tripleFives = false; 
-        boolean tripleSixes = false; 
- 
-        int[] meldValueTotals = findMeldValueTotals(); 
- 
-        // Finding the number of singles, doubles, and triple values 
-        for (int i = 1; i <= 6; i++) { 
- 
-            if (meldValueTotals[i] == 1) { 
-                numSoloValues++; 
-            } else if (meldValueTotals[i] == 2) { 
-                numDoubles++; 
-            } else if (meldValueTotals[i] >= 3) { 
- 
-                if (i == 1) { 
-                    tripleOnes = true; 
+        int numSoloValues = 0;
+        int numDoubles = 0;
+        int numTriples = 0;
+
+        boolean tripleOnes = false;
+        boolean tripleTwos = false;
+        boolean tripleThrees = false;
+        boolean tripleFours = false;
+        boolean tripleFives = false;
+        boolean tripleSixes = false;
+
+        int[] meldValueTotals = findMeldValueTotals();
+
+        // Finding the number of singles, doubles, and triple values
+        for (int i = 1; i <= 6; i++) {
+
+            if (meldValueTotals[i] == 1) {
+                numSoloValues++;
+            } else if (meldValueTotals[i] == 2) {
+                numDoubles++;
+            } else if (meldValueTotals[i] >= 3) {
+
+                if (i == 1) {
+                    tripleOnes = true;
+                    numTriples ++;
                     scoringDice += 3;
-                } else if (i == 2) { 
+                } else if (i == 2) {
                     tripleTwos = true;
-                    scoringDice += 3; 
-                } else if (i == 3) { 
+                    numTriples ++;
+                    scoringDice += 3;
+                } else if (i == 3) {
                     tripleThrees = true;
-                    scoringDice += 3; 
-                } else if (i == 4) { 
+                    numTriples ++;
+                    scoringDice += 3;
+                } else if (i == 4) {
                     tripleFours = true;
-                    scoringDice += 3; 
-                } else if (i == 5) { 
+                    numTriples ++;
+                    scoringDice += 3;
+                } else if (i == 5) {
                     tripleFives = true;
-                    scoringDice += 3; 
-                } else if (i == 6) { 
+                    numTriples ++;
+                    scoringDice += 3;
+                } else if (i == 6) {
                     tripleSixes = true;
-                    scoringDice += 3; 
-                } 
-            } 
-        } 
-        // Checking for possible straight 
-        if (numSoloValues == 6) { 
+                    numTriples ++;
+                    scoringDice += 3;
+                }
+            }
+        }
+
+        // Checking for possible straight
+        if (numSoloValues == 6) {
             scoringDice += 6;
-            score = 1000; 
+            score = 1000;
             return new int[] {score, scoringDice};
-        } 
- 
-        // Checking for triple doubles 
-        else if (numDoubles == 3) {
-            scoringDice += 6; 
+        }
+
+        // Checking for triple doubles
+        if (numDoubles == 3) {
+            scoringDice += 6;
             score = 750;
-            return new int[] {score, scoringDice}; 
-        } 
- 
-        // Scoring triple ones 
-        if (tripleOnes) { 
-            int extraValues = meldValueTotals[1] - 3; 
+            return new int[] {score, scoringDice};
+        }
+
+        // Checking for full house
+        if (numTriples == 1 && numDoubles == 1) {
+            scoringDice = 5;
+            score = 1500;
+
+            if (tripleOnes == true && meldValueTotals[1] == 4) {
+                score += 100;
+                scoringDice += 1;
+                return new int[] {score, scoringDice};
+            }
+
+            if (meldValueTotals[1] == 1) {
+                score += 100;
+                scoringDice += 1;
+                return new int[] {score, scoringDice};
+            }
+
+            if (tripleFives == true && meldValueTotals[5] == 4) {
+                score += 50;
+                scoringDice += 1;
+                return new int[] {score, scoringDice};
+            }
+
+            if (meldValueTotals[5] == 1) {
+                score += 50;
+                scoringDice += 1;
+                return new int[] {score, scoringDice};
+            }
+
+            return new int[] {score, scoringDice};
+        }
+
+        // Scoring triple ones
+        if (tripleOnes) {
+            int extraValues = meldValueTotals[1] - 3;
             scoringDice += extraValues;
-            score = score + 1000 + (100 * extraValues); 
-        } 
- 
-        // Scoring triple twos 
-        if (tripleTwos) { 
+            score = score + 1000 + (100 * extraValues);
+        }
+
+        // Scoring triple twos
+        if (tripleTwos) {
             int extraValues = meldValueTotals[2] - 3;
-            scoringDice += extraValues; 
-            score = score + 200 + (200 * extraValues); 
-        } 
- 
-        // Scoring triple threes 
-        if (tripleThrees) { 
-            int extraValues = meldValueTotals[3] - 3;
-            scoringDice += extraValues; 
-            score = score + 300 + (300 * extraValues); 
-        } 
- 
-        // Scoring triple fours 
-        if (tripleFours) { 
-            int extraValues = meldValueTotals[4] - 3; 
             scoringDice += extraValues;
-            score = score + 400 + (400 * extraValues); 
-        } 
- 
-        // Scoring triple fives 
-        if (tripleFives) { 
+            score = score + 200 + (200 * extraValues);
+        }
+
+        // Scoring triple threes
+        if (tripleThrees) {
+            int extraValues = meldValueTotals[3] - 3;
+            scoringDice += extraValues;
+            score = score + 300 + (300 * extraValues);
+        }
+
+        // Scoring triple fours
+        if (tripleFours) {
+            int extraValues = meldValueTotals[4] - 3;
+            scoringDice += extraValues;
+            score = score + 400 + (400 * extraValues);
+        }
+
+        // Scoring triple fives
+        if (tripleFives) {
             int extraValues = meldValueTotals[5] - 3;
-            scoringDice += extraValues; 
-            score = score + 500 + (500 * extraValues); 
-        } 
- 
-        // Scoring triple sixes 
-        if (tripleSixes) { 
+            scoringDice += extraValues;
+            score = score + 500 + (500 * extraValues);
+        }
+
+        // Scoring triple sixes
+        if (tripleSixes) {
             int extraValues = meldValueTotals[6] - 3;
-            scoringDice += extraValues; 
-            score = score + 600 + (600 * extraValues); 
-        } 
- 
-        // Scoring leftover ones 
-        if (tripleOnes == false) { 
+            scoringDice += extraValues;
+            score = score + 600 + (600 * extraValues);
+        }
+
+        // Scoring leftover ones
+        if (tripleOnes == false) {
             scoringDice += meldValueTotals[1];
-            score = score + (meldValueTotals[1] * 100); 
-        } 
- 
-        // Scoring leftover fives 
-        if (tripleFives == false) { 
+            score = score + (meldValueTotals[1] * 100);
+        }
+
+        // Scoring leftover fives
+        if (tripleFives == false) {
             scoringDice += meldValueTotals[5];
-            score = score + (meldValueTotals[5] * 50); 
-        } 
- 
-        return new int[] {score, scoringDice}; 
-    } 
+            score = score + (meldValueTotals[5] * 50);
+        }
+
+        return new int[] {score, scoringDice};
+    }
 }
